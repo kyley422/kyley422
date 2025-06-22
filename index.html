@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chopin vs. Liszt: A Digital Musicology Comparison</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    header {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 20px 40px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5em;
+    }
+
+    nav {
+      background-color: #34495e;
+      overflow: auto;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    nav li {
+      margin: 0 10px;
+    }
+
+    nav a {
+      display: block;
+      padding: 12px 18px;
+      color: #ecf0f1;
+      text-decoration: none;
+      font-size: 1em;
+      transition: background 0.3s;
+    }
+
+    nav a:hover {
+      background-color: #2c3e50;
+    }
+
+    section {
+      padding: 40px;
+      max-width: 1000px;
+      margin: 0 auto 20px auto;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    section h2 {
+      margin-top: 0;
+      color: #2c3e50;
+      border-bottom: 2px solid #e74c3c;
+      padding-bottom: 10px;
+    }
+
+    .plot {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .plot img {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #ccc;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+
+    .analysis {
+      margin-top: 10px;
+      font-size: 1em;
+      color: #444;
+    }
+
+    footer {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2em;
+      }
+      nav ul {
+        flex-direction: column;
+      }
+      nav a {
+        padding: 10px;
+      }
+      section {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <h1>Chopin vs. Liszt: A Digital Musicology Comparison</h1>
+    <p>Exploring Melodic, Rhythmic, and Harmonic Style through Data</p>
+    <p>Kyle Yang</p>
+  </header>
+
+  <!-- NAVIGATION BAR -->
+  <nav>
+    <ul>
+      <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#methods">Data &amp; Methods</a></li>
+      <li><a href="#melodic-intervals">Melodic Intervals</a></li>
+      <li><a href="#duration-distribution">Duration Distribution</a></li>
+      <li><a href="#self-similarity">Self-Similarity</a></li>
+      <li><a href="#roman-numeral-frequency">Roman Numerals</a></li>
+      <li><a href="#chord-transitions">Chord Transitions</a></li>
+      <li><a href="#pieces-analyzed">Pieces Analyzed</a></li>
+    </ul>
+  </nav>
+
+  <!-- SECTION: INTRODUCTION -->
+  <section id="introduction">
+    <h2>Introduction</h2>
+    <p>
+      Frédéric Chopin (1810-1849) and Franz Liszt (1811-1886) are monumental figures of the Romantic era piano and are often represented as friendly rivals. Each composer has a distinctive voice: Chopin's style is often characterized by intimate, song-like structures, using expressive rubato and ornamentation, while Liszt preferred large-scale works, weaving dramatic dynamics, melodies, and technique into grand compositions.
+    </p>
+    <p>
+      This project presents a data-driven comparison of their styles by analyzing piano works from each composer. We use melodic interval distributions, rhythm duration, self-similarity across measures, Roman-numeral frequency, and chord-transition networks to highlight how Chopin and Liszt differ in their melodic and rhythmic styles.
+    </p>
+  </section>
+
+  <!-- SECTION: DATA & METHODS -->
+  <section id="methods">
+    <h2>Data &amp; Methods</h2>
+    <p>
+      Our analysis uses two collections of piano works, extracted as MIDI files from MuseScore. Each piece was parsed using <code>music21</code>, which extracted notes, rhythm durations, and chord information. Key steps:
+      <ul>
+        <li><strong>Melodic Intervals:</strong> For every pair of consecutive <code>Note</code> objects, we computed the diatonic interval—1=unison, 2=2nd, 3=3rd, etc.—and tally frequencies.</li>
+        <li><strong>Duration Distribution:</strong> We collect each note's <code>.duration.quarterLength</code>, convert to simple fractions (e.g., 0.25 → ¼), and plot counts sorted by ascending duration.</li>
+        <li><strong>Self-Similarity:</strong> For each composer, we combine all measures across all pieces. Each measure is represented as a 12 pitch histogram. We compute the similarity between these using cosine similarity and obtain an average similarity vs. the distance between measures.</li>
+        <li><strong>Roman Numeral Frequency &amp; Chord Transitions:</strong> We extracted the chords in each score and obtained its key. We then extract Roman figures for chords and count the transitions between them to create a transition graph.</li>
+      </ul>
+    </p>
+  </section>
+
+  <!-- SECTION: MELODIC INTERVALS -->
+  <section id="melodic-intervals">
+    <h2>Melodic Intervals</h2>
+    <div class="explanation">
+      <p>
+        A melodic interval is the pitch difference between two successive notes, measured in terms of semitones. Small intervals, such as seconds or thirds, create a sense of intimacy and smoothness while larger jumps, like sixths or octaves, create excitement and surprise. The choice and sequence of intervals shape the direction of a melody and thus the emotional direction of a piece.
+      </p>
+    </div>
+    <div class="plot">
+      <img src="images/melodic_intervals_chopin.png" alt="Melodic Interval Distribution (Chopin)" />
+    </div>
+    <div class="analysis">
+      <p>
+        In Chopin's pieces, the most frequent intervals are <strong>2nds</strong> and <strong>3rds</strong>, peaking at approximately 2,600 occurrences for 3rds and 1,800 for 4ths. Smaller leaps (1sts/unisons) also appear, but in relatively lower numbers. Beyond 6ths and 7ths, the frequencies drop sharply.
+      </p>
+      <p>
+        <strong>Interpretation:</strong> Chopin's melodic writing emphasizes smaller stepwise motion (2nds, 3rds). This is reminiscent of vocal works and supports his characteristic ornamentation (such as grace notes) that move by small steps.
+      </p>
+
+      <div class="plot">
+        <img src="images/melodic_intervals_liszt.png" alt="Melodic Interval Distribution (Liszt)" />
+      </div>
+      <div class="analysis">
+        <p>
+          Liszt’s interval histogram also peaks at <strong>2nds</strong> and <strong>3rds</strong> (around 2,600 and 2,400 occurrences, respectively) but shows a more pronounced presence of larger leaps: especially 8ths (octaves).
+        </p>
+        <p>
+          <strong>Interpretation:</strong> While Liszt shares Chopin's use of small step motions, his music features more frequent larger leaps. These reflect his stylistic tendencies toward dramatic octave and chordal leaps—especially in his grand passages—contributing to a more bold and expansive melodic style.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: DURATION DISTRIBUTION -->
+  <section id="duration-distribution">
+    <h2>Duration Distribution</h2>
+    <div class="explanation">
+      <p>
+        Rhythm duration is the length of notes and rests within a piece. The most common durations are whole notes, half notes, quarter notes, etc. A composer controls the momentum and stillness of a piece by varying the durations of notes. Short, repeated durations can result in a sense of urgency, while extended durations result in a feeling of contemplation. 
+      </p>
+    </div>
+    <div class="plot">
+      <img src="images/duration_distribution_chopin.png" alt="Duration Distribution (Chopin)" />
+    </div>
+    <div class="analysis">
+      <p>
+        Chopin’s duration chart (sorted by ascending quarter-length) shows major peaks at:
+        <ul>
+          <li><strong>¼ (eighth note): ~11,000</strong></li>
+          <li><strong>½ (quarter note): ~10,200</strong></li>
+          <li><strong>⅓ (dotted eighth or ⅓ for tuplets): ~4,500</strong></li>
+          <li><strong>1 (half note): ~4,500</strong></li>
+        </ul>
+        Dotted-quarter (1½ QL) also appears frequently (~1,100), indicating Chopin's preference for dotted-rhythm. Shorter durations (1/8, 1/16) are present but comparatively minor.
+      </p>
+      <p>
+        <strong>Interpretation:</strong> Chopin’s heavy use of eighths and quarters, plus dotted-quarter notes, demonstrates the flowing, lyrical character of his nocturnes and waltzes. The dotted-quarter is a great example of long-short rhythmic patterns, which is a staple in Romantic rubato phrasing.
+      </p>
+
+      <div class="plot">
+        <img src="images/duration_distribution_liszt.png" alt="Duration Distribution (Liszt)" />
+      </div>
+      <div class="analysis">
+        <p>
+          Liszt’s distribution also peaks at:
+        <ul>
+          <li><strong>¼ (eighth note): ~22,300</strong></li>
+          <li><strong>½ (quarter note): ~9,600</strong></li>
+          <li><strong>⅓ (tuplets/dotted-eighth): ~4,800</strong></li>
+          <li><strong>1 (half note): ~3,300</strong></li>
+        </ul>
+        However, Liszt shows a much higher frequency of shorter durations—especially <strong>1/8 (eighth), 1/16 (sixteenth), and 1/32 (thirty-second)</strong> notes—than Chopin.
+        </p>
+        <p>
+          <strong>Interpretation:</strong> Liszt’s music frequently uses rapid patterns (sixteenth and thirty-second note passages) and technical embellishments (runs, arpeggios). While both composers use eighths as a foundation, Liszt's heavy use of shorter durations reflects his flamboyant, technically demanding style—especially visible in his Hungarian Rhapsodies and Transcendental Études.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: SELF-SIMILARITY -->
+  <section id="self-similarity">
+    <h2>Self-Similarity by Measure</h2>
+    <div class="explanation">
+      <p>
+        Measure self-similarity is the repetition of rhythmic and melodic patterns between successive bars (measures). Non-technically, it results in motifs that repeat at regular intervals. When a measure mirrors the previous one, it establishes predictability and a sense of comfort. Changes in a repeated pattern can introduce surprise or tension, keeping the listener engaged.
+      </p>
+    </div>
+    <div class="plot">
+      <img src="images/self_similarity_decay.png" alt="Average Self-Similarity vs. Lag" />
+    </div>
+    <div class="analysis">
+      <p>
+        This plot shows <em>similarity</em> (y-axis) versus <em>measure distance</em>. Chopin's curve (blue) begins near 0.16 at distance=1 and declines gradually to ~0.06 at distance = 50, plateauing around ~0.055 by distance = 100. Liszt's curve (orange) begins around 0.09 at distance = 1 but plunges more steeply, dropping to ~0.03 by distance = 20 and flattening near ~0.025 by distance = 100.
+      </p>
+      <p>
+        <strong>Interpretation:</strong> Chopin’s music exhibits greater measure-to-measure continuity—his harmonic patterns often continue across many bars, which results in the higher similarity at longer distances. Liszt's faster decay shows more frequent musical changes from one bar to the next—typical of his dramatic design and constant chromatic changes. Chopin “stays in one place” harmonically longer, while Liszt moves on more quickly.
+      </p>
+    </div>
+  </section>
+
+  <!-- SECTION: ROMAN NUMERAL FREQUENCY -->
+  <section id="roman-numeral-frequency">
+    <h2>Roman Numeral Frequency</h2>
+    <div class="explanation">
+      <p>
+        Roman numeral frequency is how often each chord (labeled by Roman numerals relative to a key) appears in a progression or an entire piece. In tonal music, degrees such as the tonic (I), dominant (V), and subdominant (IV) are the most common because they strongly establish the home key and are the staple of tension and resolution. A high frequency of I chords signifies stability, while an abundance of V or vii° chords creates forward motion and tension. A progression that uses frequent minor ii or vi chords might feel introspective or somber, whereas frequent use of the IV or V creates a brighter feel.
+      </p>
+    </div>
+    <div class="plot">
+      <img src="images/roman_freq_chopin.png" alt="Roman Numeral Frequency (Chopin)" />
+    </div>
+    <div class="analysis">
+      <div class="plot">
+        <img src="images/roman_freq_liszt.png" alt="Roman Numeral Frequency (Liszt)" />
+      </div>
+      <div class="analysis">
+        <p>
+          The distribution of Roman numeral functions for both composers is relatively similar, with the most common functions being I and V. However, Chopin's use of ii and iv is more balanced compared to Liszt's preference for ii.
+        </p>
+        <p>
+          <strong>Interpretation:</strong> ii is often cited as creating a very strong pull towards the dominant (v), while the iv is in a more relaxed state. Chopin's balance between ii and iv suggests a more stable harmonic balance between forward motion (ii) and suspension (iv), while Liszt's preference for ii indicates a stronger drive towards the dominant. This reflects their differing approaches to harmonic tension and resolution.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: CHORD TRANSITIONS -->
+  <section id="chord-transitions">
+    <h2>Chord Transition Networks</h2>
+    <div class="explanation">
+      <p>
+        Chord transitions are the movement from one chord to the next. Smooth transitions (e.g., I to vi with common notes) feel natural and comforting, while abrupt shifts (e.g., I to ♭II) can surprise the listener and produce drama or unease. Each transition, whether it follows an expected progression (like V→I, which gives a strong sense of resolution) or an unexpected one (like an unusual cadence, V→vi), shapes the listener’s emotional response.
+      </p>
+    </div>
+    <div class="plot">
+      <img src="images/chord_transitions_chopin.png" alt="Chord Transitions (Chopin)" />
+    </div>
+    <div class="analysis">
+      <p>
+        <strong>Chopin’s network</strong> shows the strongest links:
+        <ul>
+          <li><strong>V → I:</strong> 103 times (classic cadence)</li>
+          <li><strong>I → V:</strong> 99 times (tonic→dominant)</li>
+          <li><strong>IV → V:</strong> 97 times</li>
+          <li><strong>ii → V:</strong> 51 times</li>
+        </ul>
+        Most progressions follow diatonic patterns (I, IV, V, ii).
+      </p>
+      <p>
+        <strong>Interpretation:</strong> Chopin's harmony revolves around simple, diatonic cadences (I↔V, IV→V, ii→V). This yields a stable, grounded sound typical of his lyrical, song-like style.
+      </p>
+    </div>
+
+    <div class="plot">
+      <img src="images/chord_transitions_liszt.png" alt="Chord Transitions (Liszt)" />
+    </div>
+    <div class="analysis">
+      <p>
+        <strong>Liszt’s network</strong> highlights:
+        <ul>
+          <li><strong>V → I:</strong> 85 times, still common but less frequent</li>
+          <li><strong>I → V:</strong> 35 times</li>
+          <li><strong>V/V → V:</strong> 36 times (secondary dominant)</li>
+          <li><strong>vii° → I:</strong> 23 times (diminished leading to tonic)</li>
+          <li><strong>ii → V:</strong> 26 times</li>
+          <li><strong>IV → V:</strong> 28 times</li>
+        </ul>
+        There are more chromatic steps (V/V, vii°) before resolving.
+      </p>
+      <p>
+        <strong>Interpretation:</strong> Liszt’s progressions use more secondary dominants (V/V) and diminished chords (vii°). Instead of going directly I→V→I, he often uses V/V or vii° as transitions, creating extra tension and color before a resolution.
+      </p>
+    </div>
+  </section>
+
+  <!-- SECTION: PIECES ANALYZED -->
+  <section id="pieces-analyzed">
+    <h2>Pieces Analyzed</h2>
+    <p>
+      <strong>Chopin:</strong><br />
+      • Ballade No. 1 in G minor, Op. 23<br />
+      • Concerto No. 1 in E minor, Op. 11<br />
+      • Fantaisie-Impromptu in C♯ minor, Op. posth. 66<br />
+      • Mazurka in A-Minor, Op. 17 No. 4<br />
+      • Nocturne in E-Flat Major, Op. 9 No. 2<br />
+      • Polonaise in A♭ major, Op. 53 ("Heroic") <br />
+      • Prelude in E Minor, Op. 28, No. 4 <br />
+      • Étude in C Minor, Op. 10 No. 12 (“Revolutionary”)<br />
+      • Sonata No. 3 in B minor, Op. 58<br />
+      • Étude in A Minor, Op. 25 No. 11<br />
+    </p>
+    <p>
+      <strong>Liszt :</strong><br />
+      • 3 Études de concert, S.144 by Franz Liszt ("Un Sospiro")<br />
+      • Sonata in B minor, S.178<br />
+      • Polonaise in E Major, S. 223 No. 2<br />
+      • Mephisto Waltz No. 1 S. 514<br />
+      • Liebestraum S. 541 No. 3 in A♭ Major<br />
+      • Étude S. 141/3 in G♯ Minor ("La Campanella")<br />
+      • Hungarian Rhapsody No. 2 in C♯ minor, S.244<br />
+      • Consolation No. 3, S. 172<br />
+      • Concerto No. 1 in E♭ major, S.124<br />
+      • Ballade No. 2 in B minor, S. 171<br />
+    </p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 Digital Musicology: Chopin vs. Liszt Analysis</p>
+    <p>Data compiled &amp; visualized using <strong>music21</strong>, <strong>NumPy</strong>, 
+       <strong>pandas</strong>, and <strong>Matplotlib</strong>.</p>
+  </footer>
+
+</body>
+</html>
